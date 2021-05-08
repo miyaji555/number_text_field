@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:number_text_field/main_model.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +48,10 @@ class MyHomePage extends StatelessWidget {
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                     ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                   ),
                 ),
               ],
