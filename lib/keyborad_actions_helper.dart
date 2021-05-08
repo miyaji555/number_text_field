@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
+//今回は結局使っていない。
+
 class Content extends StatefulWidget {
   const Content({
     Key key,

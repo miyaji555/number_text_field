@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:number_text_field/main_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final FocusNode nodeText = FocusNode();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MainModel>(
@@ -42,16 +44,24 @@ class MyHomePage extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 Container(
+                  height: 200,
+                  width: 200,
                   padding: EdgeInsets.all(8),
-                  child: TextField(
-                    controller: model.textController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                  child: KeyboardActions(
+                    config: buildConfig(context),
+                    child: Center(
+                      child: TextField(
+                        controller: model.textController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        focusNode: nodeText,
+                      ),
                     ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
                   ),
                 ),
               ],
@@ -66,6 +76,38 @@ class MyHomePage extends StatelessWidget {
           ), // This trailing comma makes auto-formatting nicer for build methods.
         );
       }),
+    );
+  }
+
+  KeyboardActionsConfig buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(focusNode: nodeText, toolbarButtons: [
+          (node) {
+            return GestureDetector(
+              onTap: () => node.unfocus(),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Done',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.blue),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
+        ]),
+      ],
     );
   }
 }
