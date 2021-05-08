@@ -34,11 +34,20 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'You have pushed the button this many times:',
+                  'When you push the button, this text is updated:',
                 ),
                 Text(
-                  model.counter.toString(),
+                  model.text,
                   style: Theme.of(context).textTheme.headline4,
+                ),
+                Container(
+                  padding: EdgeInsets.all(8),
+                  child: TextField(
+                    controller: model.textController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
               ],
             ),

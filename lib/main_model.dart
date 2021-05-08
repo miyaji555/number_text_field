@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class MainModel extends ChangeNotifier {
-  int counter = 0;
+  String text = 'initial';
+  final textController = TextEditingController();
 
   void incrementCounter() {
-    counter++;
+    text = textController.text;
     notifyListeners();
   }
 }
